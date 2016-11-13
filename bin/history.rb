@@ -54,4 +54,4 @@ end
 3.times { puts '' }
 puts "You have used these aliases only once in the past #{Command.all.count} commands:"
 puts used_once_aliases.map(&:string)
-puts "You should consider removing them from your zshrc."
+puts "You should use them more, or consider removing them from your zshrc."
