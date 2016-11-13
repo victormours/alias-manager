@@ -12,7 +12,7 @@ class Command
   def self.counts
     all.group_by { |command| command }.map do |command, commands|
       [command, commands.count]
-    end
+    end.to_h
   end
 end
 
@@ -26,12 +26,6 @@ class Alias < Struct.new(:string)
     end
   end
 
-  def self.find_by_command(command)
-    all.find do |aliaz|
-      aliaz.command == command
-    end
-  end
-
   def abbreviation
     string.match(/alias\s+([^=]*)=/)[1]
   end
@@ -42,11 +36,7 @@ class Alias < Struct.new(:string)
 
 end
 
-aliases = Alias.all
-
-alias_commands = aliases.map(&:command)
-
-commands_by_counts = Command.counts.to_h
+commands_by_counts = Command.counts
 
 unused_aliases = Alias.all.select do |aliaz|
   commands_by_counts[aliaz.abbreviation] == nil
