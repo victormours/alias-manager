@@ -2,7 +2,8 @@ module AliasManager
   class Alias < Struct.new(:string)
 
     def self.all
-      @all ||= `echo "source #{ENV['HOME']}/.zshrc; alias -L" | /bin/zsh`.split("\n").select do |alias_line|
+      load_aliases = `echo "source $HOME/.zshenv; source $HOME/.zshrc; alias -L" | /bin/zsh`
+      @all ||= load_aliases.split("\n").select do |alias_line|
         alias_line[/alias\s+[^=]*=/]
       end.map do |string|
         new(string)
